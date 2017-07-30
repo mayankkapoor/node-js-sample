@@ -13,9 +13,6 @@
     "mocha": "^3.4.2",
     "request": "^2.81.0"
   },
-  "engines": {
-    "node": "4.0.0"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/heroku/node-js-sample"

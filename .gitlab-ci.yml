@@ -1,0 +1,14 @@
+stages:
+  - testing
+  - build      # part of second part of the tutorial
+  - release    # part of third part of the tutorial
+
+before_script:
+  - export ROOT_FOLDER=$PWD
+
+test:
+  stage: testing
+  image: node:boron
+  script:
+    - npm install
+    - npm test
