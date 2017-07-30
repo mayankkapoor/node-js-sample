@@ -1,10 +1,20 @@
 stages:
   - testing
-  - build      # part of second part of the tutorial
+  - build
   - release    # part of third part of the tutorial
 
-before_script:
-  - export ROOT_FOLDER=$PWD
+build_image:
+  stage: build   # build image only after test passed
+  only: [master] # build and push images only for master branch commits
+  image: docker:git # use simply git docker image
+  services:
+    - docker:dind
+  script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+    - docker build -t registry.gitlab.com/$CI_PROJECT_PATH .
+    - docker tag registry.gitlab.com/$CI_PROJECT_PATH registry.gitlab.com/$CI_PROJECT_PATH:$CI_BUILD_REF
+    - docker push registry.gitlab.com/$CI_PROJECT_PATH:$CI_BUILD_REF
+    - docker push registry.gitlab.com/$CI_PROJECT_PATH
 
 test:
   stage: testing
